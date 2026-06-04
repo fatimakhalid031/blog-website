@@ -13,7 +13,7 @@
     </div>
 
     <section class="hero-section">
-        <h1 class="hero-title">Failures,<br>half-baked attempts,<br>& lessons learned.</h1>
+        <h1 class="hero-title">Failures,<br>half-baked attempts,<br>&amp; lessons learned.</h1>
         <p class="hero-subtitle">A dock where failed projects rest, abandoned ideas find peace, and every dead end becomes a story worth telling.</p>
         <div class="scroll-hint">
             <span class="line"></span>

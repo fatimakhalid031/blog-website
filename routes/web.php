@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogPostController;
 
 // Public routes
@@ -8,8 +9,13 @@ Route::get('/', [BlogPostController::class, 'index'])->name('home');
 Route::get('/about', [BlogPostController::class, 'about'])->name('about');
 Route::get('/blog/{slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
-// Admin routes
-Route::prefix('admin')->name('admin.')->group(function () {
+// Auth routes
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Admin routes (requires authentication)
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [BlogPostController::class, 'adminIndex'])->name('index');
     Route::get('/create', [BlogPostController::class, 'create'])->name('create');
     Route::post('/', [BlogPostController::class, 'store'])->name('store');

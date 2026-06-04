@@ -9,16 +9,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+        :root {
+            --rose: #c4786a;
+            --rose-light: #e8c8c0;
+            --rose-dark: #a05a4e;
+            --sage: #8a9a7a;
+            --sage-light: #c5d0b8;
+            --gold: #c4a882;
+            --gold-light: #e0d0b8;
+            --clay: #b89080;
+            --cream: #f6f1eb;
+            --cream-dark: #e8e0d5;
+            --ink: #1a1a1a;
+            --warm-bg: #f6f1eb;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f6f1eb;
-            color: #1a1a1a;
+            background-color: var(--cream);
+            color: var(--ink);
             line-height: 1.7;
             font-weight: 300;
             font-size: 15px;
             position: relative;
+        }
+
+        /* Subtle color-wash background */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                radial-gradient(ellipse at 15% 40%, rgba(196, 120, 106, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 25%, rgba(138, 154, 122, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(196, 168, 130, 0.06) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         /* Grain texture overlay */
@@ -43,6 +71,13 @@
 
         a { color: inherit; text-decoration: none; }
         a:hover { opacity: 0.7; }
+
+        img {
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+        img:hover {
+            transform: scale(1.01);
+        }
 
         /* Layout */
         .site-wrapper {
@@ -72,6 +107,12 @@
             font-weight: 700;
             letter-spacing: -0.03em;
             line-height: 1;
+            transition: opacity 0.3s ease;
+            color: var(--ink);
+        }
+        .site-title:hover { opacity: 0.75; }
+        .site-title .brand-accent {
+            color: var(--rose);
         }
 
         .site-title .subtitle {
@@ -102,12 +143,12 @@
         }
 
         .nav-links a:hover {
-            color: #1a1a1a;
+            color: var(--rose);
             opacity: 1;
         }
 
         .nav-links a.active {
-            color: #1a1a1a;
+            color: var(--rose);
         }
 
         .nav-links a.active::after {
@@ -117,7 +158,22 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: #1a1a1a;
+            background: var(--rose);
+        }
+
+        .nav-links form button:hover {
+            color: var(--rose) !important;
+        }
+
+        .nav-links a.active {
+            color: var(--rose);
+        }
+        .nav-links a.active::after {
+            background: var(--rose);
+        }
+
+        .nav-links a:not(.active):hover {
+            color: var(--rose);
         }
 
         /* Main content */
@@ -146,31 +202,64 @@
             font-weight: 500;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: #aaa;
+            color: var(--clay);
             margin-bottom: 16px;
             padding-bottom: 8px;
             border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-label::before {
+            content: '◈';
+            font-size: 0.5rem;
+            color: var(--gold);
         }
 
         .blogger-card {
             text-align: center;
-            padding: 32px 20px;
+            padding: 32px 20px 28px;
             background: rgba(255,255,255,0.5);
-            border-radius: 4px;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .blogger-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rose-light), var(--gold-light), var(--sage-light));
+        }
+        .blogger-card:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
         }
 
         .blogger-avatar {
-            width: 80px;
-            height: 80px;
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
-            background: #ddd;
             margin: 0 auto 16px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: #999;
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .blogger-avatar:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        .blogger-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .blogger-name {
@@ -182,7 +271,7 @@
 
         .blogger-tagline {
             font-size: 0.75rem;
-            color: #888;
+            color: var(--clay);
             font-style: italic;
             margin-bottom: 12px;
         }
@@ -195,12 +284,37 @@
 
         /* Failure's Dock */
         .failure-item {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding: 12px 14px;
+            border-radius: 8px;
+            transition: background 0.25s ease, transform 0.2s ease;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
 
         .failure-item:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .failure-item:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateX(3px);
+        }
+
+        .failure-item::before {
+            content: '·';
+            font-size: 1.2rem;
+            color: var(--rose-light);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .failure-item:nth-child(2)::before { color: var(--sage-light); }
+        .failure-item:nth-child(3)::before { color: var(--gold); }
+        .failure-item:nth-child(4)::before { color: var(--clay); }
+
+        .failure-item-content {
+            flex: 1;
         }
 
         .failure-title {
@@ -222,11 +336,12 @@
             height: 420px;
             object-fit: cover;
             object-position: center 30%;
-            border-radius: 2px;
+            border-radius: 16px;
             margin-bottom: 0;
             display: block;
-            filter: saturate(0.85) sepia(0.15);
-            -webkit-filter: saturate(0.85) sepia(0.15);
+            filter: saturate(0.8) sepia(0.12) brightness(0.98);
+            -webkit-filter: saturate(0.8) sepia(0.12) brightness(0.98);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
         }
 
         .banner-sm {
@@ -239,6 +354,8 @@
             position: relative;
             margin-bottom: 0;
             line-height: 0;
+            overflow: hidden;
+            border-radius: 16px;
         }
 
         .banner-wrap::after {
@@ -248,8 +365,13 @@
             left: 0;
             right: 0;
             height: 60%;
-            background: linear-gradient(to top, #f6f1eb 0%, transparent 100%);
+            background: linear-gradient(to top, var(--cream) 0%, rgba(246, 241, 235, 0.4) 50%, transparent 100%);
             pointer-events: none;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .banner-wrap:hover .banner {
+            filter: saturate(0.9) sepia(0.08) brightness(1.02);
         }
 
         /* Blog posts on landing */
@@ -265,29 +387,38 @@
             margin-bottom: 20px;
             max-width: 700px;
         }
-
         .hero-subtitle {
             font-size: 0.9rem;
             color: #888;
             max-width: 500px;
             font-weight: 300;
+            border-left: 2px solid var(--gold-light);
+            padding-left: 20px;
         }
 
         .scroll-hint {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-top: 32px;
             font-size: 0.7rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #bbb;
+            color: var(--clay);
         }
 
         .scroll-hint .line {
             width: 30px;
             height: 1px;
             background: #ccc;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+        .scroll-hint:hover .line {
+            width: 50px;
+            background: var(--rose);
+        }
+        .scroll-hint:hover {
+            color: var(--rose);
         }
 
         .section-heading {
@@ -296,12 +427,29 @@
             margin-bottom: 32px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+        .section-heading::before {
+            content: '✦';
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.08), transparent);
         }
 
         .post-card {
-            padding: 28px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            transition: opacity 0.2s;
+            padding: 28px 24px;
+            margin: 0 -24px;
+            border-radius: 12px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            border-left: 3px solid transparent;
         }
 
         .post-card:last-child {
@@ -309,7 +457,9 @@
         }
 
         .post-card:hover {
-            opacity: 0.8;
+            background: rgba(255,255,255,0.45);
+            transform: translateX(4px);
+            border-left-color: var(--rose-light);
         }
 
         .post-meta {
@@ -324,7 +474,11 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #1a1a1a;
+            color: var(--ink);
+            transition: color 0.25s ease;
+        }
+        .post-card:hover .post-title {
+            color: var(--rose-dark);
         }
 
         .post-excerpt {
@@ -339,11 +493,18 @@
             font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            padding: 3px 10px;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 2px;
-            color: #888;
+            padding: 4px 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 20px;
+            color: var(--clay);
             margin-top: 10px;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.25s ease;
+        }
+        .post-card:hover .post-category {
+            background: var(--gold-light);
+            border-color: var(--gold);
+            color: var(--ink);
         }
 
         /* Single post */
@@ -353,11 +514,17 @@
 
         .post-header .post-meta {
             margin-bottom: 12px;
+            color: var(--clay);
         }
 
         .post-header .post-title {
             font-size: 2.4rem;
             margin-bottom: 16px;
+        }
+        .post-header .post-category {
+            background: var(--gold-light);
+            border-color: var(--gold);
+            color: var(--ink);
         }
 
         .post-body {
@@ -375,33 +542,50 @@
             font-size: 1.5rem;
             margin-top: 2em;
             margin-bottom: 0.8em;
+            color: var(--ink);
+            border-bottom: 1px solid var(--rose-light);
+            padding-bottom: 6px;
         }
 
         .post-body h3 {
             font-size: 1.2rem;
             margin-top: 1.5em;
             margin-bottom: 0.6em;
+            color: var(--rose-dark);
         }
 
         .post-body blockquote {
-            border-left: 2px solid #ddd;
-            padding-left: 20px;
+            border-left: 3px solid var(--gold);
+            padding: 12px 0 12px 24px;
             margin: 1.5em 0;
             font-style: italic;
-            color: #666;
+            color: #555;
+            background: rgba(196, 168, 130, 0.08);
+            border-radius: 0 10px 10px 0;
+            padding-right: 20px;
+        }
+
+        .post-body blockquote p {
+            margin-bottom: 0;
         }
 
         .post-body img {
             max-width: 100%;
             height: auto;
             margin: 1.5em 0;
-            border-radius: 2px;
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
         }
 
         .post-body a {
             text-decoration: underline;
             text-underline-offset: 2px;
             text-decoration-thickness: 1px;
+            transition: color 0.2s ease;
+            color: var(--clay);
+        }
+        .post-body a:hover {
+            color: var(--rose);
         }
 
         /* About page */
@@ -425,8 +609,19 @@
             font-family: 'Playfair Display', serif;
             font-style: italic;
             font-size: 1.2rem;
-            color: #888;
+            color: var(--clay);
             margin-top: 40px;
+            position: relative;
+            padding-top: 20px;
+        }
+        .about-content .signature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
         }
 
         /* Admin */
@@ -441,52 +636,89 @@
             margin-bottom: 24px;
         }
 
+        .admin-layout > div {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
         .admin-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             font-size: 0.85rem;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .admin-table th {
             text-align: left;
-            padding: 12px 8px;
-            border-bottom: 1px solid #ddd;
+            padding: 14px 12px;
+            background: rgba(196, 120, 106, 0.06);
+            border-bottom: 1px solid var(--rose-light);
             font-weight: 500;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: #888;
+            color: var(--rose-dark);
         }
 
         .admin-table td {
-            padding: 12px 8px;
+            padding: 14px 12px;
             border-bottom: 1px solid #eee;
+            background: rgba(255,255,255,0.15);
+            transition: background 0.2s ease;
+        }
+
+        .admin-table tr:hover td {
+            background: rgba(196, 120, 106, 0.04);
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
         }
 
         .btn {
             display: inline-block;
-            padding: 8px 20px;
-            border: 1px solid #1a1a1a;
+            padding: 10px 24px;
+            border: 1px solid var(--ink);
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             background: transparent;
-            color: #1a1a1a;
-            border-radius: 2px;
+            color: var(--ink);
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
         }
 
         .btn:hover {
-            background: #1a1a1a;
-            color: #f6f1eb;
+            background: var(--rose);
+            border-color: var(--rose);
+            color: white;
             opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 12px rgba(196, 120, 106, 0.25);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-sm {
-            padding: 4px 12px;
+            padding: 6px 14px;
             font-size: 0.65rem;
+        }
+
+        .btn-danger {
+            border-color: #c65d47;
+            color: #c65d47;
+        }
+        .btn-danger:hover {
+            background: #c65d47;
+            border-color: #c65d47;
+            color: white;
+            box-shadow: 0 3px 12px rgba(198, 93, 71, 0.25);
         }
 
         .form-group {
@@ -504,19 +736,21 @@
 
         .form-control {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border: 1px solid #ddd;
             background: rgba(255,255,255,0.6);
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             color: #1a1a1a;
-            border-radius: 2px;
-            transition: border-color 0.2s;
+            border-radius: 10px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #1a1a1a;
+            border-color: var(--rose);
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 0 0 3px rgba(196, 120, 106, 0.1);
         }
 
         textarea.form-control {
@@ -526,36 +760,42 @@
         }
 
         .alert {
-            padding: 12px 16px;
-            background: rgba(0,0,0,0.04);
-            border-left: 2px solid #1a1a1a;
+            padding: 14px 20px;
+            background: rgba(138, 154, 122, 0.08);
+            border-left: 3px solid var(--sage);
             font-size: 0.85rem;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+            color: #3a4a2a;
         }
 
         .pagination {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-top: 32px;
             font-size: 0.8rem;
         }
 
         .pagination a, .pagination span {
-            padding: 4px 10px;
+            padding: 6px 12px;
             border: 1px solid #ddd;
-            border-radius: 2px;
+            border-radius: 8px;
             color: #666;
+            transition: all 0.2s ease;
         }
 
         .pagination a:hover {
-            border-color: #1a1a1a;
-            color: #1a1a1a;
+            border-color: var(--rose);
+            color: var(--rose);
+            background: rgba(196, 120, 106, 0.06);
+            transform: translateY(-1px);
         }
 
         .pagination .active span {
-            background: #1a1a1a;
-            color: #f6f1eb;
-            border-color: #1a1a1a;
+            background: var(--rose);
+            color: white;
+            border-color: var(--rose);
         }
 
         /* Footer */
@@ -564,10 +804,13 @@
             padding: 32px 0;
             border-top: 1px solid rgba(0,0,0,0.06);
             font-size: 0.7rem;
-            color: #bbb;
+            color: var(--clay);
             letter-spacing: 0.05em;
             display: flex;
             justify-content: space-between;
+        }
+        .site-footer .footer-heart {
+            color: var(--rose-light);
         }
 
         /* Responsive */
@@ -605,13 +848,21 @@
     <div class="site-wrapper">
         <header class="site-header">
             <a href="{{ route('home') }}" class="site-title">
-                failure's dock
+                failure<span class="brand-accent">'</span>s dock
                 <span class="subtitle">a harbour for things that didn't work out</span>
             </a>
             <nav class="nav-links">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                 <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-                <a href="{{ route('admin.index') }}">Write</a>
+                @auth
+                    <a href="{{ route('admin.index') }}">Write</a>
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; color: #555; transition: all 0.25s ease; padding: 4px 0;">Sign out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}">Sign in</a>
+                @endauth
             </nav>
         </header>
 
@@ -627,7 +878,9 @@
             <div class="sidebar-section">
                 <div class="sidebar-label">Meet the Blogger</div>
                 <div class="blogger-card">
-                    <div class="blogger-avatar">✧</div>
+                    <div class="blogger-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&auto=format" alt="Fatima" loading="lazy">
+                    </div>
                     <div class="blogger-name">Fatima</div>
                     <div class="blogger-tagline">writing into the void</div>
                     <div class="blogger-bio">
@@ -640,28 +893,40 @@
             <!-- Failure's Dock -->
             <div class="sidebar-section">
                 <div class="sidebar-label">Failure's Dock</div>
-                <div class="failure-item">
-                    <div class="failure-title">tried to learn guitar</div>
-                    <div class="failure-date">May 2026</div>
+                <div class="dock-illustration">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'%3E%3Cpath d='M20 60 L60 20 L100 40 L140 15 L180 35' stroke='%23c4a882' stroke-width='1.5' fill='none' opacity='0.5'/%3E%3Ccircle cx='60' cy='20' r='3' fill='%23d4c4a8' opacity='0.6'/%3E%3Ccircle cx='140' cy='15' r='2' fill='%23d4c4a8' opacity='0.4'/%3E%3C/svg%3E"
+                         alt="" style="width: 100%; height: auto; opacity: 0.7; margin-bottom: 4px;">
                 </div>
                 <div class="failure-item">
-                    <div class="failure-title">started a newsletter (RIP)</div>
-                    <div class="failure-date">March 2026</div>
+                    <div class="failure-item-content">
+                        <div class="failure-title">tried to learn guitar</div>
+                        <div class="failure-date">May 2026</div>
+                    </div>
                 </div>
                 <div class="failure-item">
-                    <div class="failure-title">5am mornings — day 1</div>
-                    <div class="failure-date">January 2026</div>
+                    <div class="failure-item-content">
+                        <div class="failure-title">started a newsletter (RIP)</div>
+                        <div class="failure-date">March 2026</div>
+                    </div>
                 </div>
                 <div class="failure-item">
-                    <div class="failure-title">that sourdough starter</div>
-                    <div class="failure-date">December 2025</div>
+                    <div class="failure-item-content">
+                        <div class="failure-title">5am mornings — day 1</div>
+                        <div class="failure-date">January 2026</div>
+                    </div>
+                </div>
+                <div class="failure-item">
+                    <div class="failure-item-content">
+                        <div class="failure-title">that sourdough starter</div>
+                        <div class="failure-date">December 2025</div>
+                    </div>
                 </div>
             </div>
         </aside>
 
         <footer class="site-footer">
             <span>© {{ date('Y') }} failure's dock</span>
-            <span>crafted with patience</span>
+            <span>crafted with <span class="footer-heart">♡</span> & patience</span>
         </footer>
     </div>
 </body>

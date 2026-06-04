@@ -11,12 +11,14 @@ class BlogPostController extends Controller
     public function index()
     {
         $posts = BlogPost::published()->latest('published_at')->paginate(10);
+       
         return view('blog.index', compact('posts'));
     }
 
     public function show($slug)
     {
         $post = BlogPost::where('slug', $slug)->published()->firstOrFail();
+        
         return view('blog.show', compact('post'));
     }
 
