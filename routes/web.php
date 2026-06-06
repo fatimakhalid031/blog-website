@@ -4,8 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogPostController;
 
-// Public routes
+// Landing page
 Route::get('/', [BlogPostController::class, 'index'])->name('home');
+
+// Blog entries (separate page)
+Route::get('/entries', [BlogPostController::class, 'entries'])->name('entries');
+
+// Blogger page
+Route::get('/blogger', [BlogPostController::class, 'blogger'])->name('blogger');
+
+// About
 Route::get('/about', [BlogPostController::class, 'about'])->name('about');
 Route::get('/blog/{slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
@@ -22,4 +30,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/{blogPost}/edit', [BlogPostController::class, 'edit'])->name('edit');
     Route::put('/{blogPost}', [BlogPostController::class, 'update'])->name('update');
     Route::delete('/{blogPost}', [BlogPostController::class, 'destroy'])->name('destroy');
+});
+
+// Escapes
+Route::get('/escapes', [App\Http\Controllers\EscapeController::class, 'index'])->name('escapes.index');
+Route::get('/escapes/{escape}', [App\Http\Controllers\EscapeController::class, 'show'])->name('escapes.show');
+
+// Admin: Escapes
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/escapes/create', [App\Http\Controllers\EscapeController::class, 'create'])->name('escapes.create');
+    Route::post('/escapes', [App\Http\Controllers\EscapeController::class, 'store'])->name('escapes.store');
+    Route::delete('/escapes/{escape}', [App\Http\Controllers\EscapeController::class, 'destroy'])->name('escapes.destroy');
 });

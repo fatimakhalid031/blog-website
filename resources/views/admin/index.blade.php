@@ -3,13 +3,13 @@
 @section('title', 'Admin')
 
 @section('content')
-    <div style="max-width: 100%;">
+    <div class="admin-layout">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <h1 style="font-size: 1.6rem;">dashboard</h1>
             <a href="{{ route('admin.create') }}" class="btn">New Entry</a>
         </div>
         <p style="font-size: 0.8rem; color: #b8a890; margin-bottom: 28px; font-style: italic;">
-            ✦ the quiet work of showing up
+            the quiet work of showing up
         </p>
 
         @if($posts->count() > 0)

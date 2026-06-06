@@ -3,32 +3,36 @@
 @section('title', $post->title)
 
 @section('content')
-    @if($post->featured_image)
-        <div class="banner-wrap">
-            <img
-                src="{{ $post->featured_image }}"
-                alt="{{ $post->title }}"
-                class="banner banner-sm"
-                loading="eager"
-            >
-        </div>
-    @endif
+<style>
+    .diary-single-body p:first-of-type::first-letter {
+        font-family: 'DM Serif Display', serif;
+        font-size: 3rem;
+        float: left;
+        line-height: 0.8;
+        padding-right: 8px;
+        color: var(--gold);
+    }
+</style>
+    <div class="content-section post-page" style="max-width: 780px;">
+        <div class="diary-single">
+            <div class="diary-single-header">
+                @if($post->category)
+                    <span class="diary-category" style="margin-bottom: 12px; display: inline-block;">{{ $post->category }}</span>
+                @endif
+                <div class="diary-single-date">{{ $post->formatted_date }}</div>
+                <h1 class="diary-single-title">{{ $post->title }}</h1>
+            </div>
 
-    <article>
-        <header class="post-header">
-            <div class="post-meta">{{ $post->formatted_date }}</div>
-            <h1 class="post-title">{{ $post->title }}</h1>
-            @if($post->category)
-                <span class="post-category">{{ $post->category }}</span>
-            @endif
-        </header>
+            <div class="diary-single-body">
+                {!! nl2br(e($post->content)) !!}
+            </div>
 
-        <div class="post-body">
-            {!! nl2br(e($post->content)) !!}
+            <a href="{{ route('entries') }}" class="diary-back">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M10 3L5 7L10 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                back to the logbook
+            </a>
         </div>
-
-        <div style="margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.06);">
-            <a href="{{ route('home') }}" style="font-size: 0.8rem; color: #888;">← back to entries</a>
-        </div>
-    </article>
+    </div>
 @endsection

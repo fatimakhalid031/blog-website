@@ -3,8 +3,8 @@
 @section('title', 'New Entry')
 
 @section('content')
-    <div style="max-width: 700px;">
-        <p style="font-size: 0.75rem; color: #b8a890; margin-bottom: 4px; letter-spacing: 0.1em; text-transform: uppercase;">✦ write</p>
+    <div class="admin-layout" style="max-width: 700px;">
+        <p style="font-size: 0.75rem; color: #b8a890; margin-bottom: 4px; letter-spacing: 0.1em; text-transform: uppercase;">write</p>
         <h1 style="font-size: 1.6rem; margin-bottom: 32px;">new entry</h1>
 
         <form action="{{ route('admin.store') }}" method="POST">

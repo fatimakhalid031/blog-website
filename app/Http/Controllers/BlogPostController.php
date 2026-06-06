@@ -10,9 +10,21 @@ class BlogPostController extends Controller
 {
     public function index()
     {
-        $posts = BlogPost::published()->latest('published_at')->paginate(10);
-       
+        $posts = BlogPost::published()->latest('published_at')->get();
+
         return view('blog.index', compact('posts'));
+    }
+
+    public function entries()
+    {
+        $posts = BlogPost::published()->latest('published_at')->paginate(10);
+
+        return view('blog.entries', compact('posts'));
+    }
+
+    public function blogger()
+    {
+        return view('blog.blogger');
     }
 
     public function show($slug)
