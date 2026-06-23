@@ -17,7 +17,7 @@
 .entries-label {
     font-family: 'Caveat', cursive;
     font-size: 1rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     margin-bottom: 4px;
 }
 .entries-title {
@@ -49,7 +49,7 @@
 .entry-date {
     font-family: 'Caveat', cursive;
     font-size: 0.9rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     margin-bottom: 4px;
 }
 
@@ -92,7 +92,7 @@
 }
 .entry-read {
     font-size: 0.6rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-family: 'Inter', sans-serif;
@@ -106,7 +106,7 @@
 .entries-empty-text {
     font-family: 'Caveat', cursive;
     font-size: 1.3rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
 }
 
 @media (max-width: 768px) {

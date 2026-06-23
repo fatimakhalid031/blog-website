@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Manage Escapes')
 
 @section('content')
 <style>
@@ -72,7 +72,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin: 32px 0 40px;
+    margin: 0 0 40px;
 }
 .desk-stat {
     background: rgba(245,237,224,0.05);
@@ -139,23 +139,23 @@
 }
 .desk-table tr:hover td {
     background: rgba(245,237,224,0.07);
-    border-left: 2px solid rgba(196,137,90,0.15);
-    padding-left: 18px;
 }
 
-.desk-post-title {
+.desk-escape-title {
     font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 0.92rem;
     font-weight: 400;
     color: var(--cream);
     text-decoration: none;
     transition: color 0.25s ease;
+    display: block;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-.desk-post-title:hover {
+.desk-escape-title:hover {
     color: var(--gold-light);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: rgba(196,137,90,0.3);
 }
 
 .desk-status {
@@ -167,26 +167,92 @@
     border-radius: 20px;
     display: inline-block;
 }
-.desk-status-published {
+.desk-status-ready {
     color: #8aaa7a;
     background: rgba(138,170,122,0.06);
     border: 1px solid rgba(138,170,122,0.08);
 }
-.desk-status-draft {
-    color: var(--driftwood-light);
-    background: rgba(200,180,160,0.04);
-    border: 1px solid rgba(200,180,160,0.06);
+.desk-status-processing {
+    color: var(--gold);
+    background: rgba(196,137,90,0.06);
+    border: 1px solid rgba(196,137,90,0.1);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
 }
 
-.desk-date {
+.desk-escape-size {
     font-size: 0.75rem;
     color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
 }
 
+.desk-thumb {
+    width: 56px;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(196,137,90,0.06);
+}
+.desk-thumb svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.3;
+}
+
 .desk-actions-cell {
     text-align: right;
     white-space: nowrap;
+}
+
+/* ── Buttons ── */
+.btn-edit {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid rgba(196,137,90,0.15);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: transparent;
+    color: var(--driftwood-light);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+}
+.btn-edit:hover {
+    background: rgba(196,137,90,0.06);
+    border-color: var(--gold);
+    color: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+.btn-danger-sm {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid rgba(198,93,71,0.15);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: transparent;
+    color: rgba(198,93,71,0.7);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+}
+.btn-danger-sm:hover {
+    background: rgba(198,93,71,0.06);
+    border-color: #c65d47;
+    color: #c65d47;
+    transform: translateY(-1px);
 }
 
 /* ── Empty state ── */
@@ -211,38 +277,11 @@
     margin-bottom: 24px;
 }
 
-/* ── Pagination ── */
-.desk-pagination {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 24px 20px;
-    border-top: 1px solid rgba(196,137,90,0.04);
-}
-.desk-pagination a, .desk-pagination span {
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    border-radius: 8px;
-    color: var(--driftwood-light);
-    transition: all 0.2s ease;
-    text-decoration: none;
-}
-.desk-pagination a:hover {
-    color: var(--gold-light);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: rgba(196,137,90,0.3);
-    background: rgba(196,137,90,0.06);
-}
-.desk-pagination .active span {
-    color: var(--gold);
-    background: rgba(196,137,90,0.08);
-}
-
 @media (max-width: 768px) {
     .desk-stats { grid-template-columns: 1fr; }
     .desk-header { flex-direction: column; }
     .desk-table th, .desk-table td { padding: 12px 14px; }
+    .desk-escape-title { max-width: 160px; }
 }
 </style>
 
@@ -250,91 +289,101 @@
     {{-- Header --}}
     <div class="desk-header">
         <div>
-            <h1 class="desk-title">dashboard</h1>
-            <p class="desk-sub">the quiet work of showing up</p>
+            <h1 class="desk-title">manage escapes</h1>
+            <p class="desk-sub">the videos that slipped through</p>
         </div>
         <div class="desk-actions">
-            <a href="{{ route('admin.escapes.create') }}" class="btn btn-sm" style="font-size: 0.65rem;">Upload Escape</a>
-            <a href="{{ route('admin.create') }}" class="btn btn-sm">New Entry</a>
+            <a href="{{ route('admin.escapes.create') }}" class="btn btn-sm">Upload New</a>
         </div>
     </div>
 
     {{-- Tabs --}}
     <div class="desk-tabs">
-        <a href="{{ route('admin.index') }}" class="desk-tab active">Entries</a>
-        <a href="{{ route('admin.escapes.index') }}" class="desk-tab">Escapes</a>
+        <a href="{{ route('admin.index') }}" class="desk-tab">Entries</a>
+        <a href="{{ route('admin.escapes.index') }}" class="desk-tab active">Escapes</a>
     </div>
 
     {{-- Stats --}}
-    @if($posts->count() > 0)
+    @if($escapes->count() > 0)
     <div class="desk-stats">
         <div class="desk-stat">
-            <div class="desk-stat-number">{{ $posts->total() }}</div>
-            <div class="desk-stat-label">Total entries</div>
+            <div class="desk-stat-number">{{ $escapes->count() }}</div>
+            <div class="desk-stat-label">Total escapes</div>
         </div>
         <div class="desk-stat">
-            <div class="desk-stat-number">{{ $posts->where('is_published', true)->count() }}</div>
-            <div class="desk-stat-label">Published</div>
+            <div class="desk-stat-number">{{ $escapes->where('is_processing', false)->count() }}</div>
+            <div class="desk-stat-label">Ready</div>
         </div>
         <div class="desk-stat">
-            <div class="desk-stat-number">{{ $posts->where('is_published', false)->count() }}</div>
-            <div class="desk-stat-label">Drafts</div>
+            <div class="desk-stat-number">{{ $escapes->where('is_processing', true)->count() }}</div>
+            <div class="desk-stat-label">Processing</div>
         </div>
     </div>
     @endif
 
     {{-- Table or empty --}}
-    @if($posts->count() > 0)
+    @if($escapes->count() > 0)
     <div class="desk-table-wrap">
         <table class="desk-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Title</th>
                     <th>Status</th>
+                    <th>Size</th>
                     <th>Date</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($posts as $post)
+                @foreach($escapes as $escape)
                     <tr>
-                        <td>
-                            <a href="{{ route('blog.show', $post->slug) }}" class="desk-post-title">
-                                {{ $post->title }}
-                            </a>
+                        <td style="width: 56px;">
+                            <div class="desk-thumb">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <polygon points="5 3 19 12 5 21 5 3" stroke="rgba(196,137,90,0.3)"/>
+                                </svg>
+                            </div>
                         </td>
                         <td>
-                            @if($post->is_published)
-                                <span class="desk-status desk-status-published">Published</span>
-                            @else
-                                <span class="desk-status desk-status-draft">Draft</span>
+                            <a href="{{ route('escapes.show', $escape) }}" class="desk-escape-title" title="{{ $escape->title }}">
+                                {{ $escape->title }}
+                            </a>
+                            @if($escape->description)
+                                <span style="font-size: 0.7rem; color: var(--driftwood); display: block; margin-top: 2px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ $escape->description }}
+                                </span>
                             @endif
                         </td>
-                        <td class="desk-date">{{ $post->formatted_date }}</td>
+                        <td>
+                            @if($escape->is_processing)
+                                <span class="desk-status desk-status-processing">⟳ Converting</span>
+                            @else
+                                <span class="desk-status desk-status-ready">Ready</span>
+                            @endif
+                        </td>
+                        <td class="desk-escape-size">{{ $escape->formatted_file_size }}</td>
+                        <td class="desk-escape-size">{{ $escape->created_at->diffForHumans() }}</td>
                         <td class="desk-actions-cell">
-                            <a href="{{ route('admin.edit', $post) }}" class="btn btn-sm">Edit</a>
-                            <form action="{{ route('admin.destroy', $post) }}" method="POST" style="display: inline;">
+                            <a href="{{ route('admin.escapes.edit', $escape) }}" class="btn-edit">Edit</a>
+                            <form action="{{ route('admin.escapes.destroy', $escape) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this entry?')">Delete</button>
+                                <button type="submit" class="btn-danger-sm" onclick="return confirm('Delete this escape? This cannot be undone.')">Delete</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <div class="desk-pagination">
-            {{ $posts->links() }}
-        </div>
     </div>
     @else
     <div class="desk-empty">
-        <div class="desk-empty-icon">✎</div>
-        <div class="desk-empty-text">Nothing here yet.</div>
-        <div class="desk-empty-sub">The dock is waiting for your first entry.</div>
-        <a href="{{ route('admin.create') }}" class="btn btn-dock-3d" style="padding: 12px 32px; font-size: 0.75rem;">
-            <span class="btn-dock-text">Write your first entry</span>
+        <div class="desk-empty-icon">🌊</div>
+        <div class="desk-empty-text">The shore is quiet.</div>
+        <div class="desk-empty-sub">No escapes have been uploaded yet.</div>
+        <a href="{{ route('admin.escapes.create') }}" class="btn" style="padding: 10px 24px;">
+            Upload your first escape
         </a>
     </div>
     @endif

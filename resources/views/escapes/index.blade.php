@@ -88,7 +88,7 @@
     font-size: 0.55rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
     margin-bottom: 16px;
 }
@@ -116,7 +116,7 @@
     display: flex;
     gap: 16px;
     font-size: 0.65rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-family: 'Inter', sans-serif;
@@ -151,7 +151,7 @@
     background: var(--bg-deep); z-index: 50;
 }
 .escapes-empty-icon { font-size: 2.4rem; margin-bottom: 12px; opacity: 0.15; }
-.escapes-empty-text { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--driftwood); }
+.escapes-empty-text { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--driftwood-light); }
 
 @media (max-width: 768px) {
     .viewer-slide { flex-direction: column; }

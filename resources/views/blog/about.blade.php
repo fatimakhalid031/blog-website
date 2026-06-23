@@ -224,7 +224,7 @@
     font-size: 0.5rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
     margin-bottom: 12px;
 }
@@ -262,7 +262,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
     margin-top: 4px;
 }

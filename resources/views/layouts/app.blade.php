@@ -111,7 +111,7 @@
             font-weight: 400;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--driftwood-light);
+            color: rgba(245, 237, 224, 0.7);
             transition: color 0.25s ease;
             position: relative;
             padding: 4px 0;
@@ -811,6 +811,11 @@
     <script>
         const nav = document.getElementById('siteNav');
         window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+        // ── Register background-upload service worker ──
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
     </script>
 </body>
 </html>

@@ -3,49 +3,29 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\EscapeController;
 
-// Landing page
+// ── Public routes ──
+
 Route::get('/', [BlogPostController::class, 'index'])->name('home');
-
-// Blog entries (separate page)
 Route::get('/entries', [BlogPostController::class, 'entries'])->name('entries');
-
-// Blogger page
 Route::get('/blogger', [BlogPostController::class, 'blogger'])->name('blogger');
-
-// About
 Route::get('/about', [BlogPostController::class, 'about'])->name('about');
 Route::get('/blog/{slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
-// Auth routes
+Route::get('/escapes', [EscapeController::class, 'index'])->name('escapes.index');
+Route::get('/escapes/{escape}', [EscapeController::class, 'show'])->name('escapes.show');
+Route::get('/escapes/{escape}/status', [EscapeController::class, 'status'])->name('escapes.status');
+
+// Auth
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Admin routes (admin role required)
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [BlogPostController::class, 'adminIndex'])->name('index');
-    Route::get('/create', [BlogPostController::class, 'create'])->name('create');
-    Route::post('/', [BlogPostController::class, 'store'])->name('store');
-    Route::get('/{blogPost}/edit', [BlogPostController::class, 'edit'])->name('edit');
-    Route::put('/{blogPost}', [BlogPostController::class, 'update'])->name('update');
-    Route::delete('/{blogPost}', [BlogPostController::class, 'destroy'])->name('destroy');
-});
-
-// Escapes
-Route::get('/escapes', [App\Http\Controllers\EscapeController::class, 'index'])->name('escapes.index');
-Route::get('/escapes/{escape}', [App\Http\Controllers\EscapeController::class, 'show'])->name('escapes.show');
-Route::get('/escapes/{escape}/status', [App\Http\Controllers\EscapeController::class, 'status'])->name('escapes.status');
-
-// Admin: Escapes (admin role required)
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/escapes', [App\Http\Controllers\EscapeController::class, 'adminIndex'])->name('escapes.index');
-    Route::get('/escapes/create', [App\Http\Controllers\EscapeController::class, 'create'])->name('escapes.create');
-    Route::post('/escapes', [App\Http\Controllers\EscapeController::class, 'store'])->name('escapes.store');
-    Route::get('/escapes/{escape}/edit', [App\Http\Controllers\EscapeController::class, 'edit'])->name('escapes.edit');
-    Route::put('/escapes/{escape}', [App\Http\Controllers\EscapeController::class, 'update'])->name('escapes.update');
-    Route::delete('/escapes/{escape}', [App\Http\Controllers\EscapeController::class, 'destroy'])->name('escapes.destroy');
-});
+// ══════════════════════════════════════════════════
+//  Admin panel — loaded from routes/admin.php
+// ══════════════════════════════════════════════════
+require __DIR__.'/admin.php';
 
 // ══════════════════════════════════════════════════
 //  Manager routes (manager role required)

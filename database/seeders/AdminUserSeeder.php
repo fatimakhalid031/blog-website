@@ -9,10 +9,34 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Fatima',
-            'email' => 'fatima@blog.com',
-            'password' => 'admin123',
-        ]);
+        // Admin user
+        User::firstOrCreate(
+            ['email' => 'fatima@blog.com'],
+            [
+                'name' => 'Fatima',
+                'password' => 'admin123',
+                'role' => 'admin',
+            ]
+        );
+
+        // Manager user
+        User::firstOrCreate(
+            ['email' => 'manager@blog.com'],
+            [
+                'name' => 'Manager',
+                'password' => 'manager123',
+                'role' => 'manager',
+            ]
+        );
+
+        // Client user
+        User::firstOrCreate(
+            ['email' => 'client@blog.com'],
+            [
+                'name' => 'Client',
+                'password' => 'client123',
+                'role' => 'client',
+            ]
+        );
     }
 }

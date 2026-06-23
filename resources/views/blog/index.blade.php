@@ -197,24 +197,24 @@ body::before { display: none; }
 
 .section-label {
     font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--driftwood); margin-bottom: 12px;
+    color: var(--driftwood-light); margin-bottom: 12px;
     display: flex; align-items: center; gap: 8px;
 }
 .section-label::before {
     content: '';
     width: 20px; height: 1px;
-    background: var(--driftwood);
+    background: var(--driftwood-light);
 }
 
 .section-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2rem; font-weight: 400;
-    color: var(--navy); margin-bottom: 12px;
+    color: var(--cream); margin-bottom: 12px;
 }
 .section-sub {
     font-family: 'Libre Baskerville', serif;
     font-size: 0.9rem; font-style: italic;
-    color: var(--driftwood); margin-bottom: 40px;
+    color: var(--driftwood-light); margin-bottom: 40px;
     max-width: 600px;
 }
 
@@ -225,7 +225,8 @@ body::before { display: none; }
     gap: 20px;
 }
 .featured-card {
-    background: rgba(245,237,224,0.85);
+    background: rgba(30, 45, 50, 0.88);
+    backdrop-filter: blur(8px);
     border-radius: 16px;
     padding: 28px 24px 24px;
     border: 1px solid rgba(200,180,160,0.1);
@@ -246,7 +247,7 @@ body::before { display: none; }
 .featured-card-title {
     font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 1.05rem; font-weight: 400; line-height: 1.35;
-    color: var(--navy); margin-bottom: 10px;
+    color: var(--cream); margin-bottom: 10px;
     transition: color 0.25s ease;
 }
 .featured-card:hover .featured-card-title { color: var(--gold); }
@@ -268,7 +269,7 @@ body::before { display: none; }
     align-items: start;
 }
 .home-about-text p {
-    font-size: 0.95rem; color: #444; line-height: 1.8; margin-bottom: 16px;
+    font-size: 0.95rem; color: var(--driftwood-light); line-height: 1.8; margin-bottom: 16px;
 }
 .home-about-visual {
     position: relative;
@@ -282,7 +283,8 @@ body::before { display: none; }
 
 /* ── NEWSLETTER ── */
 .newsletter-box {
-    background: rgba(245,237,224,0.85);
+    background: rgba(30, 45, 50, 0.88);
+    backdrop-filter: blur(8px);
     border-radius: 20px;
     padding: 48px 40px;
     text-align: center;
@@ -292,11 +294,11 @@ body::before { display: none; }
 .newsletter-title {
     font-family: 'DM Serif Display', serif;
     font-size: 1.6rem; font-weight: 400;
-    color: var(--navy); margin-bottom: 6px;
+    color: var(--cream); margin-bottom: 6px;
 }
 .newsletter-sub {
     font-family: 'Caveat', cursive;
-    font-size: 1rem; color: var(--driftwood);
+    font-size: 1rem; color: var(--driftwood-light);
     margin-bottom: 24px;
 }
 .newsletter-form {

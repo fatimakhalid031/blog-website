@@ -39,7 +39,7 @@
     font-size: 0.55rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
     margin-bottom: 16px;
 }
@@ -67,7 +67,7 @@
     display: flex;
     gap: 16px;
     font-size: 0.65rem;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-family: 'Inter', sans-serif;
@@ -81,7 +81,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--driftwood);
+    color: var(--driftwood-light);
     font-family: 'Inter', sans-serif;
     transition: color 0.3s ease;
     text-decoration: none;

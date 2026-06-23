@@ -13,6 +13,7 @@ class Escape extends Model
         'file_size',
         'mime_type',
         'is_processing',
+        'original_name',
     ];
 
     protected function casts(): array
