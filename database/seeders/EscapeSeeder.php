@@ -22,14 +22,16 @@ class EscapeSeeder extends Seeder
             // Create a minimal placeholder file
             Storage::disk('public')->put($filename, 'placeholder');
 
-            Escape::create([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'file_path' => $filename,
-                'file_size' => 1024,
-                'mime_type' => 'video/webm',
-                'is_processing' => false,
-            ]);
+            Escape::firstOrCreate(
+                ['file_path' => $filename],
+                [
+                    'title' => $data['title'],
+                    'description' => $data['description'],
+                    'file_size' => 1024,
+                    'mime_type' => 'video/webm',
+                    'is_processing' => false,
+                ]
+            );
 
             $this->command->info('Created: ' . $data['title']);
         }
